@@ -2,7 +2,6 @@ const net = require('net');
 const HmacSHA256 = require('crypto-js/hmac-sha256');
 const crypto = require('crypto');
 
-
 var genRandomString = function(length){
     return crypto.randomBytes(Math.ceil(length/2))
             .toString('hex') 
@@ -14,7 +13,6 @@ var salting = function(password, nonce, iteration) {
     for (let index = 0; index < iteration; index++) {
         Salting = HmacSHA256(Salting, nonce);
     };
-    
     return (Salting.toString());
 }
 
@@ -24,7 +22,6 @@ const clientPassword = '12345678';
 const serverPassword = 'server123';
 const GSPure = 'n';
 let GSEncoded = Buffer.from(GSPure).toString('base64');
-
 
 let msg = {
     GS: GSEncoded,
@@ -40,8 +37,7 @@ let msg = {
 var client = new net.Socket();
 client.connect(1337, '127.0.0.1', function() {
     console.log('Client connected to server');
-    client.write(JSON.stringify(msg));
-        
+    client.write(JSON.stringify(msg));   
 });
 
 client.on('data', function(data) {
@@ -76,10 +72,8 @@ client.on('data', function(data) {
         }else{
             console.log('Authentication failed!!!');
         }
-        
         client.destroy();
     }
-
 });
 
 client.on('close', function() {
